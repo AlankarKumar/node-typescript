@@ -2,8 +2,8 @@ import bodyParser, { urlencoded } from 'body-parser';
 import express, { Application, NextFunction, Request, Response } from 'express';
 
 const app: Application = express();
-
-app.use(bodyParser, urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use('/add-product', (req: Request, res: Response, next: NextFunction) => {
   res.send(
@@ -11,6 +11,11 @@ app.use('/add-product', (req: Request, res: Response, next: NextFunction) => {
   );
 });
 app.use('/product', (req: Request, res: Response, next: NextFunction) => {
-  res.send(req.body);
+  console.log(req.body);
+  res.send(req.body.product);
 });
-app.listen(3000);
+
+app.use('/', (req: Request, res: Response, next: NextFunction) => {
+  res.send('Listening on this route');
+});
+app.listen(3000, 'localhost', () => console.log(`listening`));
